@@ -10,6 +10,5 @@ class Config:
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    # If you want to keep it truly public read-only:
+    
     PUBLIC_READONLY = True
