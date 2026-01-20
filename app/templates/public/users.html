@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Users</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Internal</th>
+        <th>Mobile</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>#{{ u.id }}</td>
+        <td><span class="badge badge-soft">{{ u.rank.value }}</span></td>
+        <td>
+          <a href="/users/{{ u.id }}">{{ u.last_name }} {{ u.first_name }}</a>
+        </td>
+        <td>{{ u.internal_phone or "" }}</td>
+        <td>{{ u.mobile_phone or "" }}</td>
+        <td>
+          {% if u.active %}
+          <span class="badge text-bg-success">yes</span>
+          {% else %}
+          <span class="badge text-bg-secondary">no</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

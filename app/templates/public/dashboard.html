@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="h3 mb-3">Dashboard</h1>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="kpi">
+      <div class="text-muted">Users</div>
+      <div class="h4 mb-0">{{ users_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi">
+      <div class="text-muted">Projects</div>
+      <div class="h4 mb-0">{{ projects_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi">
+      <div class="text-muted">Tasks</div>
+      <div class="h4 mb-0">{{ tasks_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="kpi">
+      <div class="text-muted">Overdue</div>
+      <div class="h4 mb-0">{{ overdue_count }}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="h5">Latest tasks</h2>
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>Deadline</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in latest_tasks %}
+      <tr>
+        <td>#{{ t.id }}</td>
+        <td><a href="/tasks/{{ t.id }}">{{ t.title }}</a></td>
+        <td>
+          <a href="/projects/{{ t.project_id }}">{{ t.project.title }}</a>
+        </td>
+        <td><span class="badge badge-soft">{{ t.status }}</span></td>
+        <td>{{ t.deadline or "" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

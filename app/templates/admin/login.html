@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="h5 mb-3">Admin Login</h1>
+        <form method="post">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label class="form-label">{{ form.username.label.text }}</label>
+            {{ form.username(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.password.label.text }}</label>
+            {{ form.password(class="form-control") }}
+          </div>
+          <button class="btn btn-dark w-100" type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+    <div class="text-muted small mt-2">
+      Login uses: <span class="fw-semibold">Last name</span> + password (for
+      users with is_admin=true).
+    </div>
+  </div>
+</div>
+{% endblock %}

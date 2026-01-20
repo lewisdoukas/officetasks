@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Admin · Projects</h1>
+  <div class="d-flex gap-2">
+    <a class="btn btn-sm btn-outline-secondary" href="/admin/users">Users</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/admin/tasks">Tasks</a>
+    <a class="btn btn-sm btn-dark" href="/admin/projects/new"
+      ><i class="fa-solid fa-plus me-1"></i>New project</a
+    >
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Tasks</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in projects %}
+      <tr>
+        <td>#{{ p.id }}</td>
+        <td>{{ p.title }}</td>
+        <td><span class="badge badge-soft">{{ p.status }}</span></td>
+        <td>{{ p.tasks|length }}</td>
+        <td class="text-end">
+          <a
+            class="btn btn-sm btn-outline-dark"
+            href="/admin/projects/{{ p.id }}/edit"
+            >Edit</a
+          >
+          <a
+            class="btn btn-sm btn-outline-dark"
+            href="/admin/projects/{{ p.id }}/attachments"
+            >Attachments</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

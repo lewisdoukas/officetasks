@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %} {% if not task %}
+<div class="alert alert-danger">Task not found.</div>
+{% else %}
+<div class="d-flex justify-content-between align-items-start mb-3">
+  <div>
+    <h1 class="h4 mb-1">{{ task.title }}</h1>
+    <div class="text-muted">
+      #{{ task.id }} ·
+      <a href="/projects/{{ task.project_id }}">{{ task.project.title }}</a> ·
+      <span class="badge badge-soft">{{ task.status }}</span>
+      <span class="badge badge-soft">{{ task.priority }}</span>
+    </div>
+  </div>
+  <div class="d-flex gap-2">
+    <a
+      class="btn btn-sm btn-outline-dark"
+      href="/admin/tasks/{{ task.id }}/edit"
+    >
+      <i class="fa-solid fa-pen-to-square me-1"></i>Edit
+    </a>
+    <a
+      class="btn btn-sm btn-dark"
+      href="/admin/tasks/{{ task.id }}/comments/new"
+    >
+      <i class="fa-solid fa-comment me-1"></i>Add comment
+    </a>
+  </div>
+</div>
+
+{% if task.description %}
+<div class="card mb-3"><div class="card-body">{{ task.description }}</div></div>
+{% endif %}
+
+<div class="row g-3 mb-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Dates</h2>
+        <dl class="row mb-0">
+          <dt class="col-sm-5">Assign date</dt>
+          <dd class="col-sm-7">{{ task.assign_date or "" }}</dd>
+          <dt class="col-sm-5">Deadline</dt>
+          <dd class="col-sm-7">{{ task.deadline or "" }}</dd>
+          <dt class="col-sm-5">Delivery date</dt>
+          <dd class="col-sm-7">{{ task.delivery_date or "" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Assignees</h2>
+        {% if task.assignees|length == 0 %}
+        <div class="text-muted">No assignees.</div>
+        {% else %}
+        <ul class="mb-0">
+          {% for u in task.assignees %}
+          <li>
+            <a href="/users/{{ u.id }}">{{ u.last_name }} {{ u.first_name }}</a>
+            ({{ u.rank.value }})
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="h6">Comments</h2>
+{% if task.comments|length == 0 %}
+<div class="text-muted">No comments.</div>
+{% else %}
+<div class="list-group">
+  {% for c in task.comments|sort(attribute="created_at", reverse=true) %}
+  <div class="list-group-item">
+    <div class="d-flex justify-content-between">
+      <div class="fw-semibold">
+        {{ c.author.last_name }} {{ c.author.first_name }}
+      </div>
+      <div class="text-muted small">
+        {{ c.created_at.strftime("%Y-%m-%d %H:%M") }}
+      </div>
+    </div>
+    <div class="mt-2">{{ c.body }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endif %} {% endblock %}

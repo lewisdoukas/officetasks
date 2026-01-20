@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">Tasks</h1>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-md-3">
+    <select class="form-select form-select-sm" name="project_id">
+      <option value="">All projects</option>
+      {% for p in projects %}
+        <option value="{{ p.id }}" {% if request.args.get('project_id', type=int) == p.id %}selected{% endif %}>
+          {{ p.title }} (#{{ p.id }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2">
+    <select class="form-select form-select-sm" name="status">
+      <option value="">All status</option>
+      {% for s in ["backlog","in_progress","blocked","done"] %}
+        <option value="{{ s }}" {% if request.args.get('status') == s %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-3">
+    <select class="form-select form-select-sm" name="assignee_id">
+      <option value="">All assignees</option>
+      {% for u in users %}
+        <option value="{{ u.id }}" {% if request.args.get('assignee_id', type=int) == u.id %}selected{% endif %}>
+          {{ u.last_name }} {{ u.first_name }} [{{ u.rank.value }}]
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2">
+    <div class="form-check mt-1">
+      <input class="form-check-input" type="checkbox" value="1" id="overdue" name="overdue"
+             {% if request.args.get('overdue') == '1' %}checked{% endif %}>
+      <label class="form-check-label" for="overdue">Overdue only</label>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-sm btn-dark w-100" type="submit">Filter</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Assignees</th>
+        <th>Deadline</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tasks %}
+      <tr class="{% if t.is_overdue() %}table-danger{% endif %}">
+        <td>#{{ t.id }}</td>
+        <td><a href="/tasks/{{ t.id }}">{{ t.title }}</a></td>
+        <td><a href="/projects/{{ t.project_id }}">{{ t.project.title }}</a></td>
+        <td><span class="badge badge-soft">{{ t.status }}</span></td>
+        <td><span class="badge badge-soft">{{ t.priority }}</span></td>
+        <td class="small">
+          {% for u in t.assignees %}
+            <a href="/users/{{ u.id }}">{{ u.last_name }}</a>{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </td>
+        <td>{{ t.deadline or "" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

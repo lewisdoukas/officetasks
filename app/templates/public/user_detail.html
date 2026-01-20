@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %} {% if not user %}
+<div class="alert alert-danger">User not found.</div>
+{% else %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 mb-0">{{ user.last_name }} {{ user.first_name }}</h1>
+  <span class="badge badge-soft">{{ user.rank.value }}</span>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Internal phone</dt>
+      <dd class="col-sm-9">{{ user.internal_phone or "" }}</dd>
+      <dt class="col-sm-3">Mobile phone</dt>
+      <dd class="col-sm-9">{{ user.mobile_phone or "" }}</dd>
+      <dt class="col-sm-3">Active</dt>
+      <dd class="col-sm-9">{{ "yes" if user.active else "no" }}</dd>
+      <dt class="col-sm-3">Admin</dt>
+      <dd class="col-sm-9">{{ "yes" if user.is_admin else "no" }}</dd>
+    </dl>
+  </div>
+</div>
+{% endif %} {% endblock %}

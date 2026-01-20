@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h4 mb-0">Admin · Attachments</h1>
+    <div class="text-muted small">{{ project.title }} (#{{ project.id }})</div>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-sm btn-outline-secondary" href="/admin/projects">Back</a>
+    <a
+      class="btn btn-sm btn-dark"
+      href="/admin/projects/{{ project.id }}/attachments/new"
+    >
+      <i class="fa-solid fa-plus me-1"></i>New link
+    </a>
+  </div>
+</div>
+
+{% if project.attachments|length == 0 %}
+<div class="alert alert-secondary">No links yet.</div>
+{% else %}
+<ul class="list-group">
+  {% for a in project.attachments %}
+  <li class="list-group-item">
+    <div class="fw-semibold">{{ a.label }}</div>
+    <div class="text-muted small">{{ a.path }}</div>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}
