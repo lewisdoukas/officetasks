@@ -29,7 +29,9 @@
       {% for u in users %}
       <tr>
         <td>#{{ u.id }}</td>
-        <td><span class="badge badge-soft">{{ u.rank.value }}</span></td>
+        <td>
+          <span class="badge badge-soft">{{ u.rank.value.upper() }}</span>
+        </td>
         <td>{{ u.last_name.capitalize() }} {{ u.first_name.capitalize() }}</td>
         <td class="small">
           {{ u.internal_phone or "" }} · {{ u.mobile_phone or "" }}

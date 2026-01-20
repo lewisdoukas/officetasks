@@ -43,8 +43,7 @@ def project_detail(project_id):
 
 @bp.route("/tasks")
 def tasks():
-    # simple filters
-    status = request.args.get("status")
+    status = request.args.get("status") or None
     assignee_id = request.args.get("assignee_id", type=int)
     project_id = request.args.get("project_id", type=int)
     overdue = request.args.get("overdue")
@@ -61,11 +60,19 @@ def tasks():
 
     tasks = q.order_by(Task.id.desc()).all()
 
-    # for filter dropdowns
     users = User.query.order_by(User.last_name, User.first_name).all()
     projects = Project.query.order_by(Project.title).all()
 
-    return render_template("public/tasks.html", tasks=tasks, users=users, projects=projects)
+    return render_template(
+        "public/tasks.html",
+        tasks=tasks,
+        users=users,
+        projects=projects,
+        selected_project_id=project_id,
+        selected_assignee_id=assignee_id,
+        selected_status=status,
+        selected_overdue=(overdue == "1"),
+    )
 
 @bp.route("/tasks/<int:task_id>")
 def task_detail(task_id):

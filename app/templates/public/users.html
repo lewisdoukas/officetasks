@@ -19,9 +19,13 @@
       {% for u in users %}
       <tr>
         <td>#{{ u.id }}</td>
-        <td><span class="badge badge-soft">{{ u.rank.value }}</span></td>
         <td>
-          <a href="/users/{{ u.id }}">{{ u.last_name }} {{ u.first_name }}</a>
+          <span class="badge badge-soft">{{ u.rank.value.upper() }}</span>
+        </td>
+        <td>
+          <a href="/users/{{ u.id }}"
+            >{{ u.last_name.capitalize() }} {{ u.first_name.capitalize() }}</a
+          >
         </td>
         <td>{{ u.internal_phone or "" }}</td>
         <td>{{ u.mobile_phone or "" }}</td>

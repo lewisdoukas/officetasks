@@ -9,7 +9,7 @@
     <select class="form-select form-select-sm" name="project_id">
       <option value="">All projects</option>
       {% for p in projects %}
-        <option value="{{ p.id }}" {% if request.args.get('project_id', type=int) == p.id %}selected{% endif %}>
+        <option value="{{ p.id }}" {% if selected_project_id == p.id %}selected{% endif %}>
           {{ p.title }} (#{{ p.id }})
         </option>
       {% endfor %}
@@ -20,7 +20,7 @@
     <select class="form-select form-select-sm" name="status">
       <option value="">All status</option>
       {% for s in ["backlog","in_progress","blocked","done"] %}
-        <option value="{{ s }}" {% if request.args.get('status') == s %}selected{% endif %}>{{ s }}</option>
+      <option value="{{ s }}" {% if selected_status == s %}selected{% endif %}>{{ s.replace("_"," ").capitalize() }}</option>
       {% endfor %}
     </select>
   </div>
@@ -29,8 +29,8 @@
     <select class="form-select form-select-sm" name="assignee_id">
       <option value="">All assignees</option>
       {% for u in users %}
-        <option value="{{ u.id }}" {% if request.args.get('assignee_id', type=int) == u.id %}selected{% endif %}>
-          {{ u.last_name }} {{ u.first_name }} [{{ u.rank.value }}]
+      <option value="{{ u.id }}" {% if selected_assignee_id == u.id %}selected{% endif %}>
+            [{{ u.rank.value.upper() }}] {{ u.last_name.capitalize() }} {{ u.first_name.capitalize() }} 
         </option>
       {% endfor %}
     </select>
@@ -38,8 +38,8 @@
 
   <div class="col-md-2">
     <div class="form-check mt-1">
-      <input class="form-check-input" type="checkbox" value="1" id="overdue" name="overdue"
-             {% if request.args.get('overdue') == '1' %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" value="1" id="overdue" name="overdue"
+        {% if selected_overdue %}checked{% endif %}>
       <label class="form-check-label" for="overdue">Overdue only</label>
     </div>
   </div>
@@ -68,11 +68,11 @@
         <td>#{{ t.id }}</td>
         <td><a href="/tasks/{{ t.id }}">{{ t.title }}</a></td>
         <td><a href="/projects/{{ t.project_id }}">{{ t.project.title }}</a></td>
-        <td><span class="badge badge-soft">{{ t.status }}</span></td>
+        <td><span class="badge badge-soft">{{ t.status.replace("_"," ").capitalize() }}</span></td>
         <td><span class="badge badge-soft">{{ t.priority }}</span></td>
         <td class="small">
           {% for u in t.assignees %}
-            <a href="/users/{{ u.id }}">{{ u.last_name }}</a>{% if not loop.last %}, {% endif %}
+            <a href="/users/{{ u.id }}">{{ u.last_name.capitalize() }}</a>{% if not loop.last %}, {% endif %}
           {% endfor %}
         </td>
         <td>{{ t.deadline or "" }}</td>

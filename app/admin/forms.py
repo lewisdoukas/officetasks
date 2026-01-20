@@ -35,10 +35,10 @@ class TaskForm(FlaskForm):
     deadline = DateField("Deadline", validators=[Optional()])
     delivery_date = DateField("Delivery date", validators=[Optional()])
     status = SelectField("Status", choices=[
-        ("backlog", "backlog"),
-        ("in_progress", "in_progress"),
-        ("blocked", "blocked"),
-        ("done", "done"),
+        ("in_progress", "In Progress"),
+        ("backlog", "Backlog"),
+        ("blocked", "Blocked"),
+        ("done", "Done"),
     ], validators=[DataRequired()])
     priority = SelectField("Priority", choices=[
         ("low", "low"),

@@ -31,7 +31,11 @@
         <td>#{{ t.id }}</td>
         <td>{{ t.title }}</td>
         <td>{{ t.project.title }}</td>
-        <td><span class="badge badge-soft">{{ t.status }}</span></td>
+        <td>
+          <span class="badge badge-soft"
+            >{{ t.status.replace("_", " ").capitalize() }}</span
+          >
+        </td>
         <td><span class="badge badge-soft">{{ t.priority }}</span></td>
         <td>{{ t.deadline or "" }}</td>
         <td class="text-end">

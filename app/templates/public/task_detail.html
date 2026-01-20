@@ -58,8 +58,10 @@
         <ul class="mb-0">
           {% for u in task.assignees %}
           <li>
-            <a href="/users/{{ u.id }}">{{ u.last_name }} {{ u.first_name }}</a>
-            ({{ u.rank.value }})
+            <a href="/users/{{ u.id }}">
+              [{{ u.rank.value.upper() }}] {{ u.last_name.capitalize() }} {{
+              u.first_name.capitalize() }}</a
+            >
           </li>
           {% endfor %}
         </ul>
@@ -78,7 +80,8 @@
   <div class="list-group-item">
     <div class="d-flex justify-content-between">
       <div class="fw-semibold">
-        {{ c.author.last_name }} {{ c.author.first_name }}
+        [{{c.author.rank.value.upper()}}] {{ c.author.last_name.capitalize() }}
+        {{ c.author.first_name.capitalize() }}
       </div>
       <div class="text-muted small">
         {{ c.created_at.strftime("%Y-%m-%d %H:%M") }}
